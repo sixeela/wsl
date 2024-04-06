@@ -49,6 +49,8 @@ echo "%wheel   ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 rm -rf /var/cache/dnf/*
 dnf clean all
 
+pip3 install -r requirements.txt
+
 cat << EOF > ansible/vars/main.yml
 username_on_the_host: $user
 git:
