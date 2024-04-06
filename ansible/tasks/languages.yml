@@ -1,0 +1,5 @@
+- name: Install languages
+  tags: languages
+  ansible.builtin.dnf:
+    name: "{{ languages_packages }}"
+    state: present

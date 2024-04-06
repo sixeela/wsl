@@ -1,0 +1,8 @@
+zsh_plugins_per_user:
+{% for user in zsh_users %}
+  - username: {{ user }}
+    plugins:
+{% for plugin in zsh_plugins %}
+      - {{ plugin }}
+{% endfor %}
+{% endfor %}

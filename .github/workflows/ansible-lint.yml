@@ -20,8 +20,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install '.[ansible]'
+          pip install ansible ansible-lint
       - name: Lint ansible folder
         run: |
           cd ansible
-          ansible-lint
+          ansible-playbook main.yml --syntax-check
+          ansible-lint main.yml

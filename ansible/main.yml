@@ -1,0 +1,45 @@
+---
+- name: Provision WSL
+  hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+    - ./vars/main.yml
+    - ./vars/zsh.yml
+  pre_tasks:
+    - name: Generate temporary variable file for zsh
+      ansible.builtin.template:
+        src: ./templates/zsh/plugins_variable.yml.j2
+        dest: ./vars/zsh.yml
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_id }}"
+        mode: "0644"
+  tasks:
+    - name: Include git tasks
+      ansible.builtin.include_tasks: tasks/git.yml
+      tags: git
+
+    - name: Include pageant tasks
+      ansible.builtin.include_tasks: tasks/pageant.yml
+      tags: pageant
+
+    - name: Include shell tasks
+      ansible.builtin.include_tasks: tasks/shell.yml
+      tags: shell
+
+    - name: Include tools tasks
+      ansible.builtin.include_tasks: tasks/tools.yml
+      tags: tools
+
+    - name: Include languages tasks
+      ansible.builtin.include_tasks: tasks/languages.yml
+      tags: languages
+
+- name: Provision WSL
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Display warning
+      ansible.builtin.debug:
+        msg: "Make sure to restart WSL to take all modifications if there are some. (open CMD > wsl --shutdown and open the distribution again)"
