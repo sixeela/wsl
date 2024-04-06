@@ -1,0 +1,37 @@
+- name: Install Hashicorp repository
+  tags: tools
+  ansible.builtin.yum_repository:
+    name: hashicorp
+    description: Hashicorp Stable - $basearch
+    baseurl: https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: https://rpm.releases.hashicorp.com/gpg
+
+- name: Install tools
+  tags: tools
+  ansible.builtin.dnf:
+    name:
+      - terraform
+      - packer
+      - podman
+      - helm
+      - unzip
+      - "https://gitlab.com/gitlab-org/cli/-/releases/v{{ glab_version }}/downloads/glab_{{ glab_version }}_Linux_x86_64.rpm"
+      - vagrant
+    disable_gpg_check: true
+    state: present
+
+- name: Install binaries
+  tags: tools
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "/usr/local/bin/{{ item.dest }}"
+    mode: "0755"
+    owner: "root"
+    group: "root"
+  loop:
+    - { url: "https://github.com/mikefarah/yq/releases/download/v{{ yq_version }}/yq_linux_amd64", dest: "yq" }
+    - { url: "https://dl.k8s.io/release/v{{ kubectl_version }}/bin/linux/amd64/kubectl", dest: "kubectl" }
+    - { url: "https://github.com/ahmetb/kubectx/releases/download/v{{ kubectx_version }}/kubectx", dest: "kubectx" }
+    - { url: "https://github.com/ahmetb/kubectx/releases/download/v{{ kubens_version }}/kubens", dest: "kubens" }
