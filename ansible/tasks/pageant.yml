@@ -38,9 +38,9 @@
   ansible.builtin.file:
     src: "{{ pageant_windows_destination }}"
     dest: "{{ ('/root' if item == 'root' else ('/home/' + item)) + pageant_linux_destination }}"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: "0755"
+    owner: "root"
+    group: "root"
+    mode: "0777"
     state: link
   loop: "{{ zsh_users }}"
 
