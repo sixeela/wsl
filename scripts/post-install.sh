@@ -51,14 +51,13 @@ dnf clean all
 
 pip3 install -r requirements.txt
 
-cat << EOF > ansible/vars/main.yml
+cat << EOF > ansible/vars/user.yml
 username_on_the_host: $user
 git:
   user:
     name: $name
     email: $email
 $([ -z "$pgp" ] || echo "    signingkey: $pgp")
-$(cat ansible/vars/main.yml)
 EOF
 
 ansible-playbook ansible/main.yml -i localhost, -D
