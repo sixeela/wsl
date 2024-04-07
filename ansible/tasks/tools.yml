@@ -35,3 +35,31 @@
     - { url: "https://dl.k8s.io/release/v{{ kubectl_version }}/bin/linux/amd64/kubectl", dest: "kubectl" }
     - { url: "https://github.com/ahmetb/kubectx/releases/download/v{{ kubectx_version }}/kubectx", dest: "kubectx" }
     - { url: "https://github.com/ahmetb/kubectx/releases/download/v{{ kubens_version }}/kubens", dest: "kubens" }
+
+- name: Fix VBoxManage not usable in WSL
+  become: true
+  become_user: root
+  block:
+    - name: Create /usr/local/bin folders
+      ansible.builtin.file:
+        path: /usr/local/bin
+        recurse: true
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+    - name: Download VBoxManage.sh script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/finarfin/wsl-virtualbox/master/VBoxManage.sh
+        dest: /usr/local/bin/VBoxManage.sh
+        mode: "0755"
+        owner: root
+        group: root
+    - name: Create symlink between /usr/local/bin/VBoxManage.sh → /usr/bin/VBoxManage
+      ansible.builtin.file:
+        src: /usr/local/bin/VBoxManage.sh
+        dest: /usr/bin/VBoxManage
+        state: link
+        owner: root
+        group: root
+        mode: "0755"
