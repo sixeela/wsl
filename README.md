@@ -21,6 +21,15 @@
 
 # Configure
 
+## Prerequisites
+```
+wsl --install --no-distribution
+```
+
+```
+Set-ExecutionPolicy RemoteSigned
+```
+
 ## Setup 
 
 Launch Powershell script in order to get and deploy latest Fedora version available
