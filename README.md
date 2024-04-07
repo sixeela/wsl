@@ -1,4 +1,5 @@
 # Basic WSL configuration with systemd support
+![Pipeline status](https://github.com/sixeela/wsl/actions/workflows/ansible-lint.yml/badge.svg)
 
 # Installed packages after execution
 - Fedora 39
