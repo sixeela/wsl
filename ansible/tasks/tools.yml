@@ -19,6 +19,7 @@
       - unzip
       - "https://gitlab.com/gitlab-org/cli/-/releases/v{{ glab_version }}/downloads/glab_{{ glab_version }}_Linux_x86_64.rpm"
       - vagrant
+      - mkpasswd
     disable_gpg_check: true
     state: present
 
