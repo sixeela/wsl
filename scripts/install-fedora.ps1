@@ -1,24 +1,19 @@
 $ProgressPreference = 'SilentlyContinue'
 
 $Date = Get-Date -Format "yyyyMMdd"
-$Version = "39"
+$Version = "42"
 $WslName = "Fedora-" + $Version
 $BaseFolder = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path + "\" + $WslName
-$DownloadURI = "https://kojipkgs.fedoraproject.org/packages/Fedora-Container-Base/" + $Version + "/" + $Date + ".0/images/Fedora-Container-Base-" + $Version + "-" + $Date + ".0.x86_64.tar.xz"
-$DownloadDest = $BaseFolder + "\Fedora-Container-Base-" + $Version + "-" + $Date + ".0.x86_64.tar.xz"
+$BaseUrl = "https://github.com/fedora-cloud/docker-brew-fedora/tree/$Version/x86_64"
+# Retrieve raw link to fedora-*.tar file
+$Filename = (Invoke-WebRequest -Uri $BaseUrl).Links | Where-Object { $_.href -match "fedora-.*.tar" } | Select-Object -First 1 -ExpandProperty href
+$Filename = $Filename.split("/")[-1]
+$DownloadURI = "https://github.com/fedora-cloud/docker-brew-fedora/raw/refs/heads/$Version/x86_64/$Filename"
+$DownloadDest = "$BaseFolder\$(Split-Path -Path $DownloadURI -Leaf)"
 $7zipPath = "$env:ProgramFiles\7-Zip\7z.exe"
-
-if (-not (Test-Path -Path $7zipPath -PathType Leaf)) {
-    throw "7 zip file '$7zipPath' not found"
-}
-Set-Alias Start-SevenZip $7zipPath
 
 New-Item -Path $BaseFolder -ItemType Directory
 Invoke-WebRequest -URI $DownloadURI -OutFile $DownloadDest
-Start-SevenZip e $DownloadDest -o"$BaseFolder"
-Start-SevenZip e $DownloadDest.Replace('.xz', '') -o"$BaseFolder"
-
 New-Item -Path ("$HOME/wsl/" + $WslName) -ItemType Directory
-wsl --import $WslName ("$HOME/wsl/" + $WslName) $($BaseFolder + "\layer.tar")
-
+wsl --import $WslName ("$HOME/wsl/" + $WslName) $($BaseFolder + "\$Filename") --version 2
 Remove-Item $BaseFolder -Recurse

@@ -139,5 +139,6 @@ function restart_gpg_agent() {
   enable_gpg_agent
 }
 
-export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
-export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+{% if zsh_custom is defined %}
+{{ zsh_custom }}
+{% endif %}

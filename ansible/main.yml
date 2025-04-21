@@ -4,9 +4,9 @@
   connection: local
   become: true
   vars_files:
+    - ./vars/custom.yml
     - ./vars/main.yml
     - ./vars/zsh.yml
-    - ./vars/user.yml
   pre_tasks:
     - name: Generate temporary variable file for zsh
       ansible.builtin.template:

@@ -2,14 +2,14 @@
 - name: Ensure packages are installed
   tags: shell
   ansible.builtin.package:
-    name:
+    name: 
       - zsh
       - bat
       - dos2unix
       - zoxide
     state: present
 
-- name: Clone oh-my-zsh repo  # noqa: latest[git]
+- name: Clone oh-my-zsh repo
   tags: shell
   become: true
   become_user: "{{ item }}"
@@ -18,7 +18,8 @@
     repo: https://github.com/robbyrussell/oh-my-zsh.git
     dest: ~/.oh-my-zsh
 
-- name: Clone powerlevel10k repo  # noqa: latest[git]
+- name: Clone powerlevel10k repo
+  tags: shell
   become: true
   become_user: "{{ item }}"
   loop: "{{ zsh_users }}"
@@ -27,7 +28,7 @@
     dest: ~/.oh-my-zsh/custom/themes/powerlevel10k
     depth: 1
 
-- name: Install plugins  # noqa: latest[git]
+- name: Install plugins
   tags: shell
   become: true
   become_user: "{{ item.0.username }}"

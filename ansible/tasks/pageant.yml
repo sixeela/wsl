@@ -1,7 +1,6 @@
 ---
 - name: Install prerequisites packages
   tags: pageant
-  become: true
   become_user: root
   ansible.builtin.package:
     name:
@@ -11,7 +10,6 @@
 
 - name: Download file from remote
   tags: pageant
-  become: true
   become_user: "root"
   ansible.builtin.get_url:
     url: https://github.com/BlackReloaded/wsl2-ssh-pageant/releases/latest/download/wsl2-ssh-pageant.exe
@@ -22,7 +20,6 @@
 
 - name: Create .ssh directory if it does not exists
   tags: pageant
-  become: true
   become_user: "{{ username_on_the_host }}"
   ansible.builtin.file:
     dest: "~/.ssh"
@@ -33,24 +30,22 @@
 
 - name: Create symlink between windows and linux
   tags: pageant
-  become: true
   become_user: "root"
   ansible.builtin.file:
     src: "{{ pageant_windows_destination }}"
     dest: "{{ ('/root' if item == 'root' else ('/home/' + item)) + pageant_linux_destination }}"
-    owner: "root"
-    group: "root"
-    mode: "0777"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: "0600"
     state: link
   loop: "{{ zsh_users }}"
 
 - name: Create .ssh directory if it does not exists
   tags: pageant
-  become: true
   become_user: "{{ username_on_the_host }}"
   ansible.builtin.template:
     src: templates/ssh/config.j2
     dest: "~/.ssh/config"
     owner: "{{ username_on_the_host }}"
     group: "{{ username_on_the_host }}"
-    mode: "0600"
+    mode: "0640"

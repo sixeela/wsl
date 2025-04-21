@@ -1,1 +1,1 @@
-ansible/vars/user.yml
+./ansible/vars/*

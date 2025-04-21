@@ -8,6 +8,27 @@
     gpgcheck: 1
     gpgkey: https://rpm.releases.hashicorp.com/gpg
 
+- name: Install Google Cloud repository
+  tags: tools
+  ansible.builtin.yum_repository:
+    name: google-cloud-cli
+    description: Google Cloud SDK
+    baseurl: https://packages.cloud.google.com/yum/repos/cloud-sdk-el9-x86_64
+    enabled: 1
+    gpgcheck: 1
+    repo_gpgcheck: 0
+    gpgkey: https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+
+- name: Install Azure CLI repository
+  tags: tools
+  ansible.builtin.yum_repository:
+    name: azure-cli
+    description: Azure CLI
+    baseurl: https://packages.microsoft.com/yumrepos/azure-cli
+    enabled: 1
+    gpgcheck: 1
+    gpgkey: https://packages.microsoft.com/keys/microsoft.asc
+
 - name: Install tools
   tags: tools
   ansible.builtin.dnf:
@@ -17,7 +38,10 @@
       - podman
       - helm
       - unzip
-      - "https://gitlab.com/gitlab-org/cli/-/releases/v{{ glab_version }}/downloads/glab_{{ glab_version }}_Linux_x86_64.rpm"
+      - "https://gitlab.com/gitlab-org/cli/-/releases/v{{ glab_version }}/downloads/glab_{{ glab_version }}_linux_amd64.rpm"
+      - google-cloud-cli
+      - azure-cli
+      - awscli
       - vagrant
       - mkpasswd
     disable_gpg_check: true

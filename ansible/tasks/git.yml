@@ -18,7 +18,6 @@
     - { name: "user.email", value: "{{ git.user.email }}" }
     - { name: "ui.color", value: "true" }
     - { name: "pull.rebase", value: "true" }
-  become: true
   become_user: "{{ username_on_the_host }}"
 
 - name: Setup GPG git configuration
@@ -31,5 +30,4 @@
   with_items:
     - { name: "user.signingkey", value: "{{ git.user.signingkey }}" }
     - { name: "commit.gpgsign", value: "true" }
-  become: true
   become_user: "{{ username_on_the_host }}"

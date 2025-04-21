@@ -1,8 +1,8 @@
-# Basic WSL configuration with systemd support
+# Basic WSL configuration for gateway access and workspace
 ![Pipeline status](https://github.com/sixeela/wsl/actions/workflows/ansible-lint.yml/badge.svg)
 
 # Installed packages after execution
-- Fedora 39
+- Fedora 42
 - zsh (with oh-my-zsh) with following plugins: gitfast, zsh-autosuggestions, zsh-syntax-highlighting, terraform, kubectl, kubectx, zoxide, command-not-found, fzf, gitignore, helm, sudo
 - pageant interconnect with Windows (with ssh configuration)
 - yq
@@ -22,28 +22,35 @@
 
 # Configure
 
-## Prerequisites
-```
-wsl --install --no-distribution
-```
-
-```
-Set-ExecutionPolicy RemoteSigned
-```
-
 ## Setup 
-
+### Prerequisites
+Launch Powershell as administrator and type following command:
+```sh
+wsl --install
+```
+Enable some Windows feature required by WSL and not installed everytime:
+```sh
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
+Restart your computer
+### Fedora installation
+Launch Powershell **as normal user**
+Allow script execution when not signed
+```sh
+Set-ExecutionPolicy Unrestricted
+```
 Launch Powershell script in order to get and deploy latest Fedora version available
 ```sh
 ./scripts/install-fedora.ps1
 ```
 Once the command as been issued, launch WSL distribution:
 ```sh
-wsl --distribution Fedora-39
+wsl --distribution Fedora-42
 ```
 In the distribution, type following command (it will asks for several informations and install all required packages):
 ```sh
-./script/post-install.sh
+./scripts/post-install.sh
 ```
 
 ## Terminal customization
