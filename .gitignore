@@ -1,1 +1,1 @@
-./ansible/vars/*
+ansible/vars/*.yml
