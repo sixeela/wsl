@@ -15,9 +15,9 @@ echo "Please type your PGP signing key (if one, else let empty):"
 
 read pgp
 
-dnf install -y util-linux passwd cracklib-dicts python3-pip curl wget systemd procps sshpass
+dnf update -y
 
-pip3 install "ansible-core>=2.16.0,<2.17.0" "ansible-lint"
+dnf install -y util-linux passwd cracklib-dicts python3-pip curl wget systemd procps sshpass ansible ansible-lint awk iptables
 
 user="${user,}"
 

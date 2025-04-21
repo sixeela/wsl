@@ -26,7 +26,7 @@
 ### Prerequisites
 Launch Powershell as administrator and type following command:
 ```sh
-wsl --install
+wsl --install --pre-release
 ```
 Enable some Windows feature required by WSL and not installed everytime:
 ```sh

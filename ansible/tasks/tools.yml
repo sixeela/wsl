@@ -3,7 +3,7 @@
   ansible.builtin.yum_repository:
     name: hashicorp
     description: Hashicorp Stable - $basearch
-    baseurl: https://rpm.releases.hashicorp.com/fedora/$releasever/$basearch/stable
+    baseurl: https://rpm.releases.hashicorp.com/fedora/41/$basearch/stable
     enabled: 1
     gpgcheck: 1
     gpgkey: https://rpm.releases.hashicorp.com/gpg
@@ -60,6 +60,7 @@
     - { url: "https://dl.k8s.io/release/v{{ kubectl_version }}/bin/linux/amd64/kubectl", dest: "kubectl" }
     - { url: "https://github.com/ahmetb/kubectx/releases/download/v{{ kubectx_version }}/kubectx", dest: "kubectx" }
     - { url: "https://github.com/ahmetb/kubectx/releases/download/v{{ kubens_version }}/kubens", dest: "kubens" }
+    - { url: "https://github.com/kubernetes-sigs/kind/releases/download/v{{ kind_version }}/kind-linux-amd64", dest: "kind" }
 
 - name: Fix VBoxManage not usable in WSL
   become: true
@@ -88,3 +89,16 @@
         owner: root
         group: root
         mode: "0755"
+
+- name: Add /etc/containers/containers.conf file
+  become: true
+  become_user: root
+  tags: podman
+  ansible.builtin.copy:
+    dest: /etc/containers/containers.conf
+    content: |
+      [network]
+      firewall_driver="iptables"
+    owner: root
+    group: root
+    mode: "0640"
