@@ -3,7 +3,7 @@
   ansible.builtin.yum_repository:
     name: hashicorp
     description: Hashicorp Stable - $basearch
-    baseurl: https://rpm.releases.hashicorp.com/fedora/41/$basearch/stable
+    baseurl: https://rpm.releases.hashicorp.com/fedora/43/$basearch/stable
     enabled: 1
     gpgcheck: 1
     gpgkey: https://rpm.releases.hashicorp.com/gpg
@@ -29,10 +29,19 @@
     gpgcheck: 1
     gpgkey: https://packages.microsoft.com/keys/microsoft.asc
 
+- name: Install containerlab repository
+  tags: tools
+  ansible.builtin.yum_repository:
+    name: containerlab
+    description: containerlab repo
+    baseurl: https://netdevops.fury.site/yum/
+    enabled: 1
+
 - name: Install tools
   tags: tools
   ansible.builtin.dnf:
     name:
+      - containerlab
       - terraform
       - packer
       - podman

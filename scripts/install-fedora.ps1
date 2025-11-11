@@ -1,7 +1,7 @@
 $ProgressPreference = 'SilentlyContinue'
 
 $Date = Get-Date -Format "yyyyMMdd"
-$Version = "42"
+$Version = "43"
 $WslName = "Fedora-" + $Version
 $BaseFolder = (New-Object -ComObject Shell.Application).NameSpace('shell:Downloads').Self.Path + "\" + $WslName
 $BaseUrl = "https://github.com/fedora-cloud/docker-brew-fedora/tree/$Version/x86_64"

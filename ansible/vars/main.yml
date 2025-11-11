@@ -19,13 +19,13 @@ pageant_windows_destination: /mnt/c/Users/Public/Downloads/wsl2-ssh-pageant.exe
 pageant_linux_destination: /.ssh/wsl2-ssh-pageant.exe
 
 # tools version
-yq_version: 4.45.1
-kubectl_version: 1.32.2
+yq_version: 4.48.1
+kubectl_version: 1.34.1
 kubens_version: 0.9.5
 kubectx_version: 0.9.5
-k9s_version: 0.40.5
-glab_version: 1.53.0
-kind_version: 0.27.0
+k9s_version: 0.50.16
+glab_version: 1.76.2
+kind_version: 0.30.0
 
 # languages
 languages_packages:
