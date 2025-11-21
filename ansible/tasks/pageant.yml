@@ -16,7 +16,7 @@
   ansible.builtin.get_url:
     url: https://github.com/BlackReloaded/wsl2-ssh-pageant/releases/latest/download/wsl2-ssh-pageant.exe
     dest: "{{ pageant_windows_destination }}"
-    mode: "0600"
+    mode: "0755"
     owner: "{{ username_on_the_host }}"
     group: "{{ username_on_the_host }}"
 
@@ -38,9 +38,9 @@
   ansible.builtin.file:
     src: "{{ pageant_windows_destination }}"
     dest: "{{ ('/root' if item == 'root' else ('/home/' + item)) + pageant_linux_destination }}"
-    owner: "{{ item }}"
-    group: "{{ item }}"
-    mode: "0600"
+    owner: "root"
+    group: "root"
+    mode: "0755"
     state: link
   loop: "{{ zsh_users }}"
 
